@@ -38,7 +38,7 @@ KOREA_UNIVERSITY_BUILDINGS = [
 ]
 
 # 인증서 경로 설정
-cert_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'GTS Root R4.cer'))
+cert_path = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = cert_path
 
 from dotenv import load_dotenv
