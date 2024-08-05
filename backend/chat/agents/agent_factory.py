@@ -67,6 +67,7 @@ def replace_aliases_with_full_names(query: str, alias_to_full_name: dict) -> str
     for alias, full_name in alias_to_full_name.items():
         query = re.sub(r'\b' + re.escape(alias) + r'\b', full_name, query)
     return query
+
 class AgentFactory:
 
     def __init__(self):
@@ -81,12 +82,7 @@ class AgentFactory:
 
         # 시스템 메시지 설정
         self.system_message = """
-        You are a knowledgeable assistant specializing in providing information about Korea University. 
-        You should respond in Korean and only provide information about the buildings and locations within Korea University. 
-        If you receive a question about a location or building that does not exist within Korea University, 
-        inform the user that the location or building is not part of Korea University. 
-        If you don't know the answer to a question, simply say you don't know.
-
+        You are a knowledgeable assistant specializing in providing information about Korea University. Please respond in Korean, offering information exclusively about the buildings and locations within Korea University. When responding, ensure that your tone is formal, respectful, and professional. If you receive a question about a location or building that does not exist within Korea University, kindly inform the user that the location or building is not part of Korea University. If you do not know the answer to a question, simply state that you do not know.
         List of buildings at Korea University:
         """ + ", ".join(KOREA_UNIVERSITY_BUILDINGS)
 
@@ -112,16 +108,15 @@ class AgentFactory:
 
     def retrieve_documents(self, query: str):
         logger.debug(f"Retrieving documents for query: {query}")
-        building = self.check_building_existence(query)
-        if building:
-            query = query.replace(query, building)  # 정식 명칭으로 대체
-        tokenized_query = " ".join(self.tokenizer.morphs(query))
+        building_exists, building_name, modified_query = self.check_building_existence(query)
+        if building_exists:
+            query = modified_query  # 수정된 질문 사용
+        tokenized_query = " ".join(self.tokenizer.morphs(query))  # 대체된 질문을 토큰화
         logger.debug(f"Tokenized query: {tokenized_query}")
-        
+
         query_embedding = self.embeddings.embed_query(tokenized_query)
         logger.debug(f"Query embedding shape: {np.array(query_embedding).shape}")
-        
-        # 검색 쿼리를 통해 유사 문서 검색
+
         D, I = self.index.search(np.array([query_embedding]), k=3)  # 상위 3개 검색
         matching_documents = [self.documents[i]['content'] for i in I[0]]
         logger.debug(f"Query: {query}, Matched {len(matching_documents)} documents, Top 3 documents: {matching_documents}")
@@ -145,7 +140,6 @@ class AgentFactory:
                 keywords[alias_keyword] = main_name  # 정식 명칭 매핑
         return keywords
 
-
     def combine_nouns(self, tokens: List[str]) -> List[str]:
         combined_tokens = []
         skip_next = False
@@ -162,8 +156,7 @@ class AgentFactory:
 
         return combined_tokens
 
-
-    def check_building_existence(self, query: str) -> bool:
+    def check_building_existence(self, query: str) -> Tuple[bool, str, str]:
         logger.debug(f"Checking building existence in query: {query}")
 
         def fuzzy_similarity(query_phrase: str, building_keyword: str) -> int:
@@ -180,7 +173,6 @@ class AgentFactory:
 
         for building in KOREA_UNIVERSITY_BUILDINGS:
             main_name, *aliases = building.replace("(", " ").replace(")", "").split()
-            # aliases는 빈 문자열이 아닌 경우에만 포함하도록 필터링
             building_keywords = [main_name] + [alias for alias in aliases if alias]
 
             for building_keyword in building_keywords:
@@ -190,11 +182,11 @@ class AgentFactory:
                 similarity = fuzzy_similarity(combined_query_phrase, building_keyword_combined)
                 logger.debug(f"Building: {building}, Query Phrase: {combined_query_phrase}, Building Keyword: {building_keyword_combined}, Similarity: {similarity}")
                 if similarity >= threshold:
-                    logger.debug(f"Building {building} exists in the query.")
-                    return main_name
+                    modified_query = query.replace(building_keyword_combined, main_name)
+                    logger.debug(f"Building {building} exists in the query. Modified query: {modified_query}")
+                    return True, main_name, modified_query
         logger.debug("No matching building found in the query.")
-        return None
-
+        return False, "", query
 
     async def create_agent(
         self,
@@ -216,9 +208,10 @@ class AgentFactory:
 
         def rag_tool_func(inputs):
             query = inputs.get("input", "") if isinstance(inputs, dict) else str(inputs)
-            if not self.check_building_existence(query):
+            building_exists, building_name, modified_query = self.check_building_existence(query)
+            if not building_exists:
                 return {"response": "해당 건물이나 장소는 고려대학교에 없습니다.", "retrieved_docs": []}
-            query = query.replace(query, self.check_building_existence(query))
+            query = modified_query  # 수정된 질문 사용
             retrieved_docs = self.retrieve_documents(query)
             logger.debug(f"Retrieved documents: {retrieved_docs}")
             combined_text = self.system_message + "\n\n" + " ".join(retrieved_docs + [query])
