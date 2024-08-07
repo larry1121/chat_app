@@ -1,0 +1,22 @@
+You need to take a file of community wiki and create a KU Geospatial Q&A QA pair, Here is an example of a question. 
+
+Explaining facilities available in specific buildings
+Providing information about on-campus events and activities
+Identifying campus landmarks
+Recommending study spots on campus
+
+We'll provide the link separately, and you can look at what's inside the link and create QA in multiple steps if there's a lot of text.
+
+
+—------------------------------------------------------------------
+
+QA쌍 출력 예시 (최소 5개 이상)
+Q : 공학관에 공부하기 좋은 공간이 어디에 있을까?
+A :2층에 여러명이 사용할 수 있는 스터디룸들이 있는데 사전에 예약해야돼요. 예약은 포탈에서 신청하시면 됩니다. 노트북도 사용할 수 있으니 참고해주세요! 
+
+공학관 2층에 가면 해동도서관이라는 곳이 있어요! 여기 사람들이 잘 모르는 장소같은데 정말 추천합니다! 조용히 공부하기 좋은 곳이고 실내 인테리어도 잘 해놨어요\n혼자서 공부할 수 있는 공간도 있고, 2인실 스터디룸도 7개쯤 있습니다.\n2인실 스터디룸은 따로 예약할 필요 없고 그냥 도서관 근장하시는 분께 사용한다고 말만 하면 되는 걸로 알아요!
+
+—------------------------------------------------------------------
+
+In your answer, you can include an image in community wiki in the link that will help with understanding. Make as much as possible without duplicating content. Create at least 5 Q&A pairs. Start the conversation with “Please enter your community wiki link or file” only
+
