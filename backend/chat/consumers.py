@@ -55,8 +55,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         retrieved_docs = response_data.get("retrieved_docs", [])
 
         # 응답 형식을 정리하여 전송
-        formatted_response = response.replace("content='", "").replace("' additional_kwargs={} example=False", "").replace("\\n", "\n")
-        formatted_response = formatted_response.replace("**", "")  # Markdown 문법 제거
+        formatted_response = self.format_response(response)
 
         # Send the response from the OpenAI Chat API to the frontend client
         await self.send(text_data=json.dumps({
@@ -64,7 +63,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'answer',
             'retrieved_docs': retrieved_docs
         }))
-
 
     async def message_agent(self, message: str, chat_id: str):
         # Save the user message to the database
@@ -76,21 +74,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if isinstance(response_data, str):
             response_data = {"response": response_data, "retrieved_docs": []}
 
-        # Save the AI message to the database
-        await self.chat_message_repository.save_message(message=response_data["response"], sender=MessageSender.AI.value, chat_id=chat_id)
+        # 응답 형식을 정리한 후 저장
+        formatted_response = self.format_response(response_data["response"])
 
+        # Save the AI message to the database
+        await self.chat_message_repository.save_message(message=formatted_response, sender=MessageSender.AI.value, chat_id=chat_id)
+
+        response_data["response"] = formatted_response
         return response_data
 
     async def run_agent_async(self, message: str):
         loop = asyncio.get_event_loop()
         try:
             logger.debug(f"Sending request to OpenAI API with message: {message}")
+            
+            # 건물 존재 여부를 체크합니다.
+            if not self.agent_factory.check_building_existence(message):
+                return {"response": "해당 건물이나 장소는 고려대학교에 없습니다.", "retrieved_docs": []}
+            
+            # 건물 존재 여부를 체크한 후에도 유사도 검색을 진행합니다.
             response_data = await loop.run_in_executor(None, self.agent.run, {"input": message})
             logger.debug(f"Received response from OpenAI API: {response_data}")
-
-            # 응답 데이터 타입과 내용을 확인하는 디버깅 로그
-            logger.debug(f"Response data type: {type(response_data)}")
-            logger.debug(f"Response data content: {response_data}")
 
             if isinstance(response_data, str):
                 # 문자열 응답을 json으로 변환
@@ -106,15 +110,22 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 human_message = HumanMessage(content=combined_text)
 
                 llm_response = await loop.run_in_executor(None, self.llm.predict_messages, [human_message])
-                    # 응답 형식 유지
+                # 응답 형식 유지
                 final_response_content = str(llm_response[0].content) if isinstance(llm_response, list) and len(llm_response) > 0 else str(llm_response)
                 
                 final_response = {
                     "response": final_response_content,
                     "retrieved_docs": retrieved_docs
                 }
+                logger.debug(f"Final LLM response: {final_response}")
                 return final_response
             return response_data
         except Exception as e:
             logger.error(f"Error running agent: {e}")
             return {"response": "An error occurred while processing your request.", "retrieved_docs": []}
+
+    def format_response(self, response: str) -> str:
+        """응답 형식을 정리하는 함수"""
+        formatted_response = response.replace("content='", "").replace("' additional_kwargs={} example=False", "").replace("\\n", "\n")
+        formatted_response = formatted_response.replace("**", "")  # Markdown 문법 제거
+        return formatted_response
