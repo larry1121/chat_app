@@ -38,7 +38,7 @@ KOREA_UNIVERSITY_BUILDINGS = [
 ]
 
 # 인증서 경로 설정
-cert_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'GTS Root R4.cer'))
+cert_path = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = cert_path
 
 from dotenv import load_dotenv
@@ -86,6 +86,7 @@ class AgentFactory:
         If you receive a question about a location or building that does not exist within Korea University, 
         inform the user that the location or building is not part of Korea University. 
         If you don't know the answer to a question, simply say you don't know.
+        Do Not convey inaccurate information. Do not pass on information that you are not sure about.
 
         List of buildings at Korea University:
         """ + ", ".join(KOREA_UNIVERSITY_BUILDINGS)
