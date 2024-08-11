@@ -65,6 +65,7 @@ MarkupSafe==2.1.5
 marshmallow==3.19.0
 marshmallow-enum==1.5.1
 matplotlib-inline==0.1.7
+mecab-ko-dic==1.0.0
 mecab-python3==1.0.9
 mistune==3.0.2
 msgpack==1.0.5
