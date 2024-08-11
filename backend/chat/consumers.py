@@ -5,7 +5,7 @@ import django
 import asyncio
 import logging
 
-from chat.agents.agent_factory import AgentFactory
+from backend.chat.agents.agent_factory import AgentFactory
 from chat.agents.callbacks import AsyncStreamingCallbackHandler
 from chat.messages.chat_message_repository import ChatMessageRepository
 
