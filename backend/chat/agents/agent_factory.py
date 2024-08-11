@@ -6,7 +6,7 @@ from langchain.agents import initialize_agent, load_tools, AgentType, AgentExecu
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
-from chat.messages.chat_message_repository import ChatMessageRepository
+from backend.chat.messages.chat_message_repository import ChatMessageRepository
 from chat.models import MessageSender, ChatMessage
 from project import settings
 import os
