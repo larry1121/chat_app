@@ -8,7 +8,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from backend.chat.messages.chat_message_repository import ChatMessageRepository
 from chat.models import MessageSender, ChatMessage
-from project import settings
+from backend.project import settings
 import os
 from chat.utils import load_documents_from_csv, CSV_FILE_PATH
 from langchain.tools import Tool
