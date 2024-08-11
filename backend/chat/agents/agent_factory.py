@@ -46,7 +46,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # MeCab 초기화
-mecab = Mecab(dicpath='/opt/homebrew/lib/mecab/dic/mecab-ko-dic')
+mecab = Mecab(dicpath='/app/.heroku/python/lib/python3.9/site-packages/mecab_ko_dic/dicdir')
 
 class CustomClientSession(aiohttp.ClientSession):
     def __init__(self, *args, **kwargs):
