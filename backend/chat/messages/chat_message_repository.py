@@ -4,7 +4,7 @@ from typing import List
 import django
 from channels.db import database_sync_to_async
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.project.settings')
 django.setup()
 
 from chat.models import ChatMessage

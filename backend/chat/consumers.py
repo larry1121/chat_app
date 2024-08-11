@@ -9,7 +9,7 @@ from backend.chat.agents.agent_factory import AgentFactory
 from chat.agents.callbacks import AsyncStreamingCallbackHandler
 from chat.messages.chat_message_repository import ChatMessageRepository
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.project.settings')
 django.setup()
 
 from channels.generic.websocket import AsyncWebsocketConsumer
