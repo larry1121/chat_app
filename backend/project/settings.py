@@ -56,7 +56,7 @@ CHANNEL_LAYERS = {
 }
 
 # Use channels layer as default backend
-ASGI_APPLICATION = 'project.asgi.application'
+ASGI_APPLICATION = 'backend.project.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,7 +119,7 @@ LOGGING = {
     },
 }
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'backend.project.urls'
 
 TEMPLATES = [
     {
@@ -137,7 +137,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'backend.project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
