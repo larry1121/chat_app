@@ -47,6 +47,8 @@ load_dotenv()
 
 # MeCab 초기화
 mecab = Mecab(dicpath=os.getenv('MECAB_PATH'))
+print("MECAB_PATH:", os.getenv('MECAB_PATH'))
+
 
 class CustomClientSession(aiohttp.ClientSession):
     def __init__(self, *args, **kwargs):
