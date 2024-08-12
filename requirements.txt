@@ -24,6 +24,7 @@ daphne==4.0.0
 dataclasses-json==0.5.7
 decorator==5.1.1
 defusedxml==0.7.1
+dj-database-url==2.2.0
 Django==4.2
 django-cors-headers==3.14.0
 djangorestframework==3.14.0
