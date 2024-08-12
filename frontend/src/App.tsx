@@ -73,6 +73,7 @@ export const App = () => {
       .then(response => response.json())
       .then(data => {
         setMessages(data);
+        console.log(data)
       });
   };
 
