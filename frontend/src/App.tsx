@@ -22,7 +22,7 @@ export const App = () => {
 
   useEffect(() => {
     if (currentChatId) {
-      webSocket.current = new ReconnectingWebSocket(`ws://localhost:8000/ws/chat/${currentChatId}/`);
+      webSocket.current = new ReconnectingWebSocket(`wss://kupletalk-4c60f80926c4.herokuapp.com/ws/chat/${currentChatId}/`);
       webSocket.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.type === "debug") {
