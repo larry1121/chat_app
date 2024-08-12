@@ -69,7 +69,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://kupletalk.com",
+    "https://api.kupletalk.com",
+    'https://kupletalk.netlify.app',
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
