@@ -46,8 +46,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # MeCab 초기화
-mecab = Mecab(dicpath=os.getenv('MECAB_PATH'))
-print("MECAB_PATH:", os.getenv('MECAB_PATH'))
+try:
+    mecab = Mecab(dicpath=os.getenv('MECAB_PATH'))
+except Exception as e:
+    print("Failed to initialize MeCab. Dictionary path:", os.getenv('MECAB_PATH'))
+    print(str(e))
+    raise
+
 
 
 class CustomClientSession(aiohttp.ClientSession):
