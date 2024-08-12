@@ -1,2 +1,2 @@
-web: daphne -u /tmp/daphne.sock backend.project.asgi:application
+web: daphne -b 0.0.0.0 -p $PORT backend.project.asgi:application
 worker: python manage.py runworker
