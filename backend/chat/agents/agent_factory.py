@@ -91,8 +91,7 @@ class AgentFactory:
         self.system_message = """
         You are a knowledgeable assistant specializing in providing information about Korea University. 
         You should respond in Korean and provide information about the buildings and locations within Korea University. 
-        If you receive a question about a location or building that does not exist within Korea University, 
-       answer with more information the user that the location or building is may not part of Korea University. 
+        If you receive an inquiry about a location or building that does not exist within Korea University, respond to the user by prefacing your answer with information that the location or building may not be part of Korea University. Do not simply say no.
         If you don't know the answer to a question, simply say you don't know.
         Do Not convey inaccurate information. Do not pass on information that you are not sure about.
 
