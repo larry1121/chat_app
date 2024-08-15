@@ -126,15 +126,17 @@ export const App = () => {
               <ChatBox messages={messages} isLoading={loading} />
             </ChatBoxContainer>
             <ChatInputContainer>
-            
+            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+            </ChatInputContainer>
           </>
         ) : (
           <>
-            <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
+            <GuidePage onExampleQuestionClick={onExampleQuestionClick} /><ChatInputContainer>
+            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+            </ChatInputContainer>
           </>
         )}
-  <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-            </ChatInputContainer>
+  
       </ChatContainer>
       {debugMode && <DebugDrawer message={debugMessage} debugMode={debugMode} />}
     </AppContainer>
