@@ -20,7 +20,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ messages, isLoading }) => {
         {messages.map((message, index) => (
           <ChatMessage key={index} sender={message.sender} content={message.content} isUser={message.sender.toLowerCase() === 'user'} />
         ))}
-        <TypingIndicator isTyping={isLoading} />
+        {isLoading && <TypingIndicator isTyping={isLoading} />}
       </MessageList>
     </StyledChatBox>
   );
@@ -29,18 +29,19 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ messages, isLoading }) => {
 const MessageList = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  flex-grow: 1;
 `;
 
 const StyledChatBox = styled.div`
   flex: 1;
-  overflow-y: auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  overflow-y: auto;
   padding: 20px;
   @media (max-width: 768px) {
     padding: 15px;
   }
-
   @media (max-width: 480px) {
     padding: 10px;
   }
