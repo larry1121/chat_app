@@ -77,7 +77,6 @@ export const App = () => {
       });
   };
 
-  // 예시 질문 클릭 시 호출되는 함수
   const onExampleQuestionClick = (message: string) => {
     if (message.trim() === '') return;
 
@@ -94,7 +93,6 @@ export const App = () => {
 
           // Send the message after a timeout to ensure that the Chat has been created
           setTimeout(function () {
-            // This block of code will be executed after 0.5 seconds
             onNewUserMessage(newChat.id, { sender: 'USER', content: message });
           }, 500);
         });
@@ -124,14 +122,18 @@ export const App = () => {
         <ChatMenu debugMode={debugMode} setDebugMode={setDebugMode} />
         {currentChatId ? (
           <>
-            <ChatBox messages={messages} isLoading={loading} />
+            <ChatBoxContainer>
+              <ChatBox messages={messages} isLoading={loading} />
+            </ChatBoxContainer>
+            <ChatInputContainer debugMode={debugMode}>
+              <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+            </ChatInputContainer>
           </>
         ) : (
           <>
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </>
         )}
-        <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
       </ChatContainer>
       {debugMode && <DebugDrawer message={debugMessage} debugMode={debugMode} />}
     </AppContainer>
@@ -141,7 +143,7 @@ export const App = () => {
 const AppContainer = styled.div<{ isSidebarOpen: boolean }>`
   display: flex;
   height: 100vh;
-  overflow: hidden; // Prevent horizontal scroll
+  overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -179,13 +181,33 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')}; // Adjust left margin when sidebar is open
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
   transition: all 0.3s ease-in-out;
-  position: relative; // Ensure MenuButton is positioned relative to ChatContainer
+  position: relative;
 
   @media (max-width: 768px) {
     width: 100%;
     margin-left: 0;
+  }
+`;
+
+const ChatBoxContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 70px;
+`;
+
+const ChatInputContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
+  background-color: white;
+  padding: 10px;
+  z-index: 100;
+  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -198,6 +220,6 @@ const StyledMenuButton = styled.button`
   font-size: 1.5em;
   cursor: pointer;
   z-index: 1100;
-  color: #f4f4f4; // Change icon color to light gray
-  font-size: 1.7em; // Match the size of new chat icon
+  color: #f4f4f4;
+  font-size: 1.7em;
 `;
