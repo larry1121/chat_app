@@ -199,14 +199,16 @@ const GuidePageContainer = styled.div`
   padding-bottom: 70px; /* Space for the ChatInput */
 `;
 
+
 const ChatInputContainer = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: white;
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
-  height: 70px; /* Fixed height for ChatInputContainer */
+  height: 70px;
+  z-index: 1000; /* Ensure ChatInput is above other content */
 `;
 
 const StyledMenuButton = styled.button`
