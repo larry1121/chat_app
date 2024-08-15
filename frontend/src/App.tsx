@@ -181,24 +181,24 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
   transition: all 0.3s ease-in-out;
-  height: 100%; /* Ensure it takes up the full height */
-  position: relative; /* Ensure children are positioned relative to this container */
+  height: 100%; /* 전체 높이를 차지하도록 설정 */
+  position: relative; /* Relative position to handle absolute positioning inside */
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
+  padding-bottom: 70px; /* ChatInputContainer가 차지하는 공간 확보 */
+  height: 100%; /* 전체 높이 설정 */
   box-sizing: border-box;
-  padding-bottom: 70px; /* Space for the ChatInput */
 `;
 
 const GuidePageContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: 70px; /* Space for the ChatInput */
+  padding-bottom: 70px; /* ChatInputContainer가 차지하는 공간 확보 */
 `;
-
 
 const ChatInputContainer = styled.div`
   position: fixed;
