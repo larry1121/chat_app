@@ -125,7 +125,7 @@ export const App = () => {
             <ChatBoxContainer>
               <ChatBox messages={messages} isLoading={loading} />
             </ChatBoxContainer>
-            <ChatInputContainer debugMode={debugMode}>
+            <ChatInputContainer>
               <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
             </ChatInputContainer>
           </>
@@ -200,15 +200,11 @@ const ChatBoxContainer = styled.div`
 const ChatInputContainer = styled.div`
   position: fixed;
   bottom: 0;
-  width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
+  width: 100%;
   background-color: white;
   padding: 10px;
   z-index: 100;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 const StyledMenuButton = styled.button`
