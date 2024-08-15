@@ -11,7 +11,7 @@ const Container = styled.div<{ isUser: boolean }>`
   display: flex;
   justify-content: ${({ isUser }) => (isUser ? 'flex-end' : 'flex-start')};
   padding: 10px;
-  align-items: flex-start; /* Ensure the icon and message are aligned at the top */
+  align-items: flex-start;
 `;
 
 const Bubble = styled.div<{ isUser: boolean }>`
@@ -20,17 +20,17 @@ const Bubble = styled.div<{ isUser: boolean }>`
   border-radius: 10px;
   max-width: 60%;
   display: flex;
-  align-items: center;
+  flex-direction: column; /* Ensure long messages wrap correctly */
+  word-wrap: break-word; /* Ensure long words wrap */
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 const Content = styled.div`
-  margin-left: 10px;
   line-height: 1.5;
   font-size: 16px;
-  word-break: break-word;
+  word-break: break-word; /* Ensure long words wrap correctly */
 `;
 
 const Sender = styled.div`
