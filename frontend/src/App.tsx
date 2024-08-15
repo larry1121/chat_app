@@ -188,13 +188,14 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   @media (max-width: 768px) {
     width: 100%;
     margin-left: 0;
+    height: 100%; /* Ensure the container takes up full height on mobile */
   }
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px;
+  height: 100%; /* Make sure it takes up the full height available */
 `;
 
 const ChatInputContainer = styled.div`
