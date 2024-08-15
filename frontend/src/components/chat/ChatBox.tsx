@@ -27,15 +27,16 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ messages, isLoading }) => {
 };
 
 const MessageList = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledChatBox = styled.div`
   flex: 1;
-  padding: 20px;
   overflow-y: auto;
-
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 20px;
   @media (max-width: 768px) {
     padding: 15px;
   }
