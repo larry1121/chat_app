@@ -121,22 +121,17 @@ export const App = () => {
         </StyledMenuButton>
         <ChatMenu debugMode={debugMode} setDebugMode={setDebugMode} />
         {currentChatId ? (
-          <>
-            <ChatBoxContainer>
-              <ChatBox messages={messages} isLoading={loading} />
-            </ChatBoxContainer>
-            <ChatInputContainer>
-            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-            </ChatInputContainer>
-          </>
+          <ChatBoxContainer>
+            <ChatBox messages={messages} isLoading={loading} />
+          </ChatBoxContainer>
         ) : (
-          <>
-            <GuidePage onExampleQuestionClick={onExampleQuestionClick} /><ChatInputContainer>
-            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-            </ChatInputContainer>
-          </>
+          <GuidePageContainer>
+            <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
+          </GuidePageContainer>
         )}
-  
+        <ChatInputContainer>
+          <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+        </ChatInputContainer>
       </ChatContainer>
       {debugMode && <DebugDrawer message={debugMessage} debugMode={debugMode} />}
     </AppContainer>
@@ -187,21 +182,29 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
   transition: all 0.3s ease-in-out;
   height: 100%; /* Ensure it takes up the full height */
+  position: relative; /* Ensure children are positioned relative to this container */
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
+  padding-bottom: 70px; /* Space for the ChatInput */
+`;
+
+const GuidePageContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-bottom: 70px; /* Space for the ChatInput */
 `;
 
 const ChatInputContainer = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   background-color: white;
   padding: 10px;
-  z-index: 100;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px; /* Fixed height for ChatInputContainer */
 `;
