@@ -132,6 +132,9 @@ export const App = () => {
         ) : (
           <>
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
+<ChatInputContainer>
+              <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+            </ChatInputContainer>
           </>
         )}
       </ChatContainer>
@@ -183,19 +186,15 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
   transition: all 0.3s ease-in-out;
-  position: relative;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0;
-    height: 100%; /* Ensure the container takes up full height on mobile */
-  }
+  height: 100%; /* Ensure it takes up the full height */
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  height: 100%; /* Make sure it takes up the full height available */
+  padding: 10px;
+  height: calc(100vh - 70px); /* 70px is the height of the ChatInputContainer */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 `;
 
 const ChatInputContainer = styled.div`
@@ -206,6 +205,7 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   z-index: 100;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+  height: 70px; /* Fixed height for ChatInputContainer */
 `;
 
 const StyledMenuButton = styled.button`
