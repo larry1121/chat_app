@@ -132,9 +132,6 @@ export const App = () => {
         ) : (
           <>
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
-<ChatInputContainer>
-              <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-            </ChatInputContainer>
           </>
         )}
       </ChatContainer>
@@ -192,8 +189,6 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
-  height: calc(100vh - 70px); /* 70px is the height of the ChatInputContainer */
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
 `;
 
