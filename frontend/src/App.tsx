@@ -126,7 +126,7 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer>
+        <ChatInputContainer isSidebarOpen={sidebarOpen}>
           <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
         </ChatInputContainer>
       </ChatContainer>
@@ -201,7 +201,7 @@ const GuidePageContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const ChatInputContainer = styled.div`
+const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -209,7 +209,12 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000;
+  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')};
+  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
+
+  @media (min-width: 769px) {
+    visibility: visible; /* 데스크탑 UI에서는 항상 보이도록 설정 */
+  }
 `;
 
 const StyledMenuButton = styled.button`
