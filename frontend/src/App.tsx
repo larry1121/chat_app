@@ -171,6 +171,21 @@ const Overlay = styled.div`
   }
 `;
 
+const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
+  transition: all 0.3s ease-in-out;
+  position: relative;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
+`;
+
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
