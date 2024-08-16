@@ -18,7 +18,7 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [debugMessage, setDebugMessage] = useState<string>("");
   const [debugMode, setDebugMode] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Default sidebar closed
 
   useEffect(() => {
     if (currentChatId) {
@@ -129,7 +129,7 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer>
+        <ChatInputContainer isSidebarOpen={sidebarOpen}>
           <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
         </ChatInputContainer>
       </ChatContainer>
@@ -179,8 +179,8 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
-  transition: all 0.3s ease-in-out;
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')}; /* 사이드바가 열린 상태에서는 여유 공간 확보 */
+  transition: margin-left 0.3s ease-in-out; /* 애니메이션 효과 추가 */
   height: 100%; /* 전체 높이를 차지하도록 설정 */
   position: relative; /* Relative position to handle absolute positioning inside */
 `;
@@ -200,15 +200,15 @@ const GuidePageContainer = styled.div`
   padding-bottom: 70px; /* ChatInputContainer가 차지하는 공간 확보 */
 `;
 
-const ChatInputContainer = styled.div`
-  position: fixed;
+const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
+  position: ${({ isSidebarOpen }) => (isSidebarOpen ? 'absolute' : 'fixed')}; /* 사이드바가 열리면 absolute, 닫히면 fixed */
   bottom: 0;
   width: 100%;
   background-color: white;
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000; /* Ensure ChatInput is above other content */
+  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')}; /* 사이드바가 열려 있을 때는 낮은 z-index, 닫혀 있을 때는 높은 z-index */
 `;
 
 const StyledMenuButton = styled.button`
