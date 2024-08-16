@@ -126,11 +126,9 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        {!sidebarOpen && ( // 사이드바가 열려 있지 않을 때만 ChatInput 표시
-          <ChatInputContainer>
-            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-          </ChatInputContainer>
-        )}
+        <ChatInputContainer isSidebarOpen={sidebarOpen}>
+          <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+        </ChatInputContainer>
       </ChatContainer>
       {debugMode && <DebugDrawer message={debugMessage} debugMode={debugMode} />}
     </AppContainer>
@@ -169,7 +167,7 @@ const Overlay = styled.div<{ isSidebarOpen: boolean }>`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
+    z-index: 1500;
     visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'visible' : 'hidden')}; // 사이드바가 열렸을 때만 보이도록 설정
   }
 `;
@@ -200,7 +198,7 @@ const GuidePageContainer = styled.div`
   padding-bottom: 70px;
 `;
 
-const ChatInputContainer = styled.div`
+const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -208,18 +206,6 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000; // Ensure ChatInput is above other content
-`;
-
-const StyledMenuButton = styled.button`
-  position: fixed;
-  top: 16px;
-  left: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-  z-index: 1100;
-  color: #f4f4f4;
-  font-size: 1.7em;
+  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')}; // 사이드바가 열리면 낮은 z-index, 닫히면 높은 z-index
+  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')}; // 사이드바가 열렸을 때 ChatInput 숨기기
 `;
