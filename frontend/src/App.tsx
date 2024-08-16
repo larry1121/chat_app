@@ -18,7 +18,7 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [debugMessage, setDebugMessage] = useState<string>("");
   const [debugMode, setDebugMode] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Default sidebar closed
 
   useEffect(() => {
     if (currentChatId) {
@@ -30,7 +30,7 @@ export const App = () => {
           setDebugMessage(prevMessage => prevMessage + formattedToken);
         } else {
           setLoading(false);
-          const newMessage = { sender: '쿠플봇', content: data['message'] };
+          const newMessage = {sender: '쿠플봇', content: data['message']};
           setMessages(prevMessages => [...prevMessages, newMessage]);
         }
       };
@@ -111,8 +111,10 @@ export const App = () => {
       <SidebarContainer isOpen={sidebarOpen}>
         <Sidebar onChatSelected={onChatSelected} selectedChatId={currentChatId} isOpen={sidebarOpen} onClose={closeSidebar} />
       </SidebarContainer>
-      {sidebarOpen && window.innerWidth <= 768 && <Overlay onClick={closeSidebar} />}
-      <ChatContainer debugMode={debugMode} isSidebarOpen={sidebarOpen}>
+      {sidebarOpen && window.innerWidth <= 768 && (
+        <Overlay isSidebarOpen={sidebarOpen} onClick={closeSidebar} /> 
+      )}
+      <ChatContainer isSidebarOpen={sidebarOpen} debugMode={debugMode}>
         <StyledMenuButton onClick={toggleSidebar} title={sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}>
           <FontAwesomeIcon icon={faBars} />
         </StyledMenuButton>
@@ -126,7 +128,7 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer>
+        <ChatInputContainer isSidebarOpen={sidebarOpen}>
           <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
         </ChatInputContainer>
       </ChatContainer>
@@ -159,15 +161,19 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ isSidebarOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 250px; /* 사이드바의 폭 만큼 오른쪽에 위치 */
+  width: calc(100% - 250px); /* 사이드바를 제외한 나머지 영역을 덮도록 설정 */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'visible' : 'hidden')};
+
   @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
   }
 `;
 
@@ -180,29 +186,24 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   transition: margin-left 0.3s ease-in-out;
   height: 100%;
   position: relative;
-
-  @media (max-width: 768px) {
-    margin-left: 0;
-    width: 100%;
-  }
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   padding-bottom: 70px;
-  height: calc(100vh - 70px); /* 전체 화면에서 ChatInput의 높이를 뺀 값 */
+  height: 100%;
   box-sizing: border-box;
 `;
 
 const GuidePageContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px;
   box-sizing: border-box;
+  padding-bottom: 70px;
 `;
 
-const ChatInputContainer = styled.div`
+const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -210,7 +211,8 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000;
+  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')}; 
+  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')}; 
 `;
 
 const StyledMenuButton = styled.button`
