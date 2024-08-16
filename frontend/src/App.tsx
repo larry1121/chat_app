@@ -18,7 +18,7 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [debugMessage, setDebugMessage] = useState<string>("");
   const [debugMode, setDebugMode] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
   useEffect(() => {
     if (currentChatId) {
@@ -176,14 +176,13 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
-  transition: margin-left 0.3s ease-in-out;
-  height: 100%;
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
+  transition: all 0.3s ease-in-out;
   position: relative;
 
   @media (max-width: 768px) {
-    margin-left: 0;
     width: 100%;
+    margin-left: 0;
   }
 `;
 
@@ -191,7 +190,7 @@ const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   padding-bottom: 70px;
-  height: calc(100vh - 70px); /* 전체 화면에서 ChatInput의 높이를 뺀 값 */
+  height: calc(100vh - 70px);
   box-sizing: border-box;
 `;
 
