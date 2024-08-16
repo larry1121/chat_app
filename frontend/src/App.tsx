@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Sidebar } from './components/chat/Sidebar';
-import { ChatBox as ChatBoxComponent } from './components/chat/ChatBox'; // 기존 컴포넌트 이름 변경
+import { ChatBox } from './components/chat/ChatBox';
 import { ChatInput } from "./components/chat/ChatInput";
 import styled from 'styled-components';
 import ReconnectingWebSocket from "reconnecting-websocket";
@@ -18,7 +18,7 @@ export const App = () => {
   const [loading, setLoading] = useState(false);
   const [debugMessage, setDebugMessage] = useState<string>("");
   const [debugMode, setDebugMode] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (currentChatId) {
@@ -119,16 +119,14 @@ export const App = () => {
         <ChatMenu debugMode={debugMode} setDebugMode={setDebugMode} />
         {currentChatId ? (
           <ChatBoxContainer>
-            <ChatBoxContent>
-              <ChatBoxComponent messages={messages} isLoading={loading} />
-            </ChatBoxContent>
+            <ChatBox messages={messages} isLoading={loading} />
           </ChatBoxContainer>
         ) : (
           <GuidePageContainer>
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer isSidebarOpen={sidebarOpen}>
+        <ChatInputContainer>
           <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
         </ChatInputContainer>
       </ChatContainer>
@@ -178,40 +176,23 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
-  transition: all 0.3s ease-in-out;
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
+  transition: margin-left 0.3s ease-in-out;
+  height: 100%;
   position: relative;
 
   @media (max-width: 768px) {
-    width: 100%;
     margin-left: 0;
+    width: 100%;
   }
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 70px;
   height: calc(100vh - 70px);
   box-sizing: border-box;
-  overflow-y: hidden;
-`;
-
-const ChatBoxContent = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column-reverse;
-  padding: 20px;
-  box-sizing: border-box;
-
-  @media (max-width: 768px) {
-    padding: 15px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 10px;
-  }
 `;
 
 const GuidePageContainer = styled.div`
@@ -221,7 +202,7 @@ const GuidePageContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
+const ChatInputContainer = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -229,12 +210,7 @@ const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')};
-  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
-
-  @media (min-width: 769px) {
-    visibility: visible; /* 데스크탑 UI에서는 항상 보이도록 설정 */
-  }
+  z-index: 1000;
 `;
 
 const StyledMenuButton = styled.button`
