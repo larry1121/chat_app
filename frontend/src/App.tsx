@@ -119,7 +119,9 @@ export const App = () => {
         <ChatMenu debugMode={debugMode} setDebugMode={setDebugMode} />
         {currentChatId ? (
           <ChatBoxContainer>
-            <ChatBoxComponent messages={messages} isLoading={loading} />
+            <ChatBoxContent>
+              <ChatBoxComponent messages={messages} isLoading={loading} />
+            </ChatBoxContent>
           </ChatBoxContainer>
         ) : (
           <GuidePageContainer>
@@ -188,19 +190,19 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
 
 const ChatBoxContainer = styled.div`
   flex: 1;
-  overflow-y: auto;
-  height: calc(100vh - 70px); /* 전체 화면에서 ChatInput의 높이를 뺀 값 */
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 70px);
+  box-sizing: border-box;
+  overflow-y: hidden;
 `;
 
-const ChatBoxContent = styled.div`  /* 이전에 ChatBox로 사용된 이름을 ChatBoxContent로 변경 */
+const ChatBoxContent = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
   display: flex;
-  flex-direction: column-reverse; /* 메시지들이 아래에서 위로 쌓이도록 */
+  flex-direction: column-reverse;
+  padding: 20px;
   box-sizing: border-box;
 
   @media (max-width: 768px) {
