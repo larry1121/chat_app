@@ -140,7 +140,7 @@ export const App = () => {
 const AppContainer = styled.div<{ isSidebarOpen: boolean }>`
   display: flex;
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden; // Prevent horizontal scroll
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -161,19 +161,15 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Overlay = styled.div<{ isSidebarOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 250px; /* 사이드바의 폭 만큼 오른쪽에 위치 */
-  width: calc(100% - 250px); /* 사이드바를 제외한 나머지 영역을 덮도록 설정 */
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1500;
-  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'visible' : 'hidden')};
-
+const Overlay = styled.div`
   @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
   }
 `;
 
@@ -182,37 +178,14 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
-  transition: margin-left 0.3s ease-in-out;
-  height: 100%;
-  position: relative;
-`;
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')}; // Adjust left margin when sidebar is open
+  transition: all 0.3s ease-in-out;
+  position: relative; // Ensure MenuButton is positioned relative to ChatContainer
 
-const ChatBoxContainer = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 70px;
-  height: 100%;
-  box-sizing: border-box;
-`;
-
-const GuidePageContainer = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  box-sizing: border-box;
-  padding-bottom: 70px;
-`;
-
-const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
-  height: 70px;
-  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '900' : '1000')}; 
-  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')}; 
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const StyledMenuButton = styled.button`
@@ -224,6 +197,6 @@ const StyledMenuButton = styled.button`
   font-size: 1.5em;
   cursor: pointer;
   z-index: 1100;
-  color: #f4f4f4;
-  font-size: 1.7em;
+  color: #f4f4f4; // Change icon color to light gray
+  font-size: 1.7em; // Match the size of new chat icon
 `;
