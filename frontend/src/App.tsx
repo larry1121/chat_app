@@ -73,7 +73,6 @@ export const App = () => {
       .then(response => response.json())
       .then(data => {
         setMessages(data);
-        console.log(data)
       });
   };
 
@@ -108,7 +107,7 @@ export const App = () => {
   };
 
   return (
-    <AppContainer>
+    <AppContainer isSidebarOpen={sidebarOpen}>
       <SidebarContainer isOpen={sidebarOpen}>
         <Sidebar onChatSelected={onChatSelected} selectedChatId={currentChatId} isOpen={sidebarOpen} onClose={closeSidebar} />
       </SidebarContainer>
@@ -127,19 +126,21 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer isSidebarOpen={sidebarOpen}>
-          <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
-        </ChatInputContainer>
+        {!sidebarOpen && ( // 사이드바가 열려 있지 않을 때만 ChatInput 표시
+          <ChatInputContainer>
+            <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
+          </ChatInputContainer>
+        )}
       </ChatContainer>
       {debugMode && <DebugDrawer message={debugMessage} debugMode={debugMode} />}
     </AppContainer>
   );
 };
 
-const AppContainer = styled.div`
+const AppContainer = styled.div<{ isSidebarOpen: boolean }>`
   display: flex;
   height: 100vh;
-  overflow: hidden;
+  overflow: hidden; // Prevent horizontal scroll
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -168,26 +169,31 @@ const Overlay = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 900; /* ChatInput보다 위에 위치 */
+    z-index: 500;
   }
 `;
 
-const ChatContainer = styled.div<{ isSidebarOpen: boolean; debugMode: boolean }>`
+const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>`
   display: flex;
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
-  transition: margin-left 0.3s ease-in-out; /* 애니메이션 효과 추가 */
+  transition: margin-left 0.3s ease-in-out; // 애니메이션 효과 추가
   height: 100%;
-  position: relative;
+  position: relative; // Ensure children are positioned relative to this container
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px;
-  height: 100%;
+  padding-bottom: 70px; // ChatInputContainer가 차지하는 공간 확보
+  height: 100%; // 전체 높이 설정
   box-sizing: border-box;
 `;
 
@@ -195,10 +201,10 @@ const GuidePageContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: 70px;
+  padding-bottom: 70px; // ChatInputContainer가 차지하는 공간 확보
 `;
 
-const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
+const ChatInputContainer = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -206,8 +212,7 @@ const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: ${({ isSidebarOpen }) => (isSidebarOpen ? '800' : '1000')}; /* 사이드바가 열렸을 때 ChatInput을 가립니다 */
-  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')}; /* 사이드바가 열렸을 때 ChatInput을 숨깁니다 */
+  z-index: 1000; // Ensure ChatInput is above other content
 `;
 
 const StyledMenuButton = styled.button`
@@ -219,6 +224,8 @@ const StyledMenuButton = styled.button`
   font-size: 1.5em;
   cursor: pointer;
   z-index: 1100;
-  color: #f4f4f4;
-  font-size: 1.7em;
+  color: #f4f4f4; // Change icon color to light gray
+  font-size: 1.7em; // Match the size of new chat icon
 `;
+
+``
