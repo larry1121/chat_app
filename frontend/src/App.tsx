@@ -159,7 +159,7 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 250px; /* 사이드바의 폭 만큼 오른쪽에 위치 */
