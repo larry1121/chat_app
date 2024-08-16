@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Sidebar } from './components/chat/Sidebar';
-import { ChatBox } from './components/chat/ChatBox';
+import { ChatBox as ChatBoxComponent } from './components/chat/ChatBox'; // 기존 컴포넌트 이름 변경
 import { ChatInput } from "./components/chat/ChatInput";
 import styled from 'styled-components';
 import ReconnectingWebSocket from "reconnecting-websocket";
@@ -119,7 +119,7 @@ export const App = () => {
         <ChatMenu debugMode={debugMode} setDebugMode={setDebugMode} />
         {currentChatId ? (
           <ChatBoxContainer>
-            <ChatBox messages={messages} isLoading={loading} />
+            <ChatBoxComponent messages={messages} isLoading={loading} />
           </ChatBoxContainer>
         ) : (
           <GuidePageContainer>
@@ -195,7 +195,7 @@ const ChatBoxContainer = styled.div`
   flex-direction: column;
 `;
 
-const ChatBox = styled.div`
+const ChatBoxContent = styled.div`  /* 이전에 ChatBox로 사용된 이름을 ChatBoxContent로 변경 */
   flex: 1;
   overflow-y: auto;
   padding: 20px;
