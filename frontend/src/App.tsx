@@ -112,7 +112,7 @@ export const App = () => {
         <Sidebar onChatSelected={onChatSelected} selectedChatId={currentChatId} isOpen={sidebarOpen} onClose={closeSidebar} />
       </SidebarContainer>
       {sidebarOpen && window.innerWidth <= 768 && (
-        <Overlay isSidebarOpen={sidebarOpen} onClick={closeSidebar} />  {/* isSidebarOpen prop을 전달 */}
+        <Overlay isSidebarOpen={sidebarOpen} onClick={closeSidebar} />  {/* isSidebarOpen prop 전달 */}
       )}
       <ChatContainer isSidebarOpen={sidebarOpen} debugMode={debugMode}>
         <StyledMenuButton onClick={toggleSidebar} title={sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}>
