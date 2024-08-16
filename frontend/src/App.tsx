@@ -112,7 +112,7 @@ export const App = () => {
         <Sidebar onChatSelected={onChatSelected} selectedChatId={currentChatId} isOpen={sidebarOpen} onClose={closeSidebar} />
       </SidebarContainer>
       {sidebarOpen && window.innerWidth <= 768 && (
-        <Overlay onClick={closeSidebar} /> 
+        <Overlay isSidebarOpen={sidebarOpen} onClick={closeSidebar} /> 
       )}
       <ChatContainer isSidebarOpen={sidebarOpen} debugMode={debugMode}>
         <StyledMenuButton onClick={toggleSidebar} title={sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}>
@@ -161,15 +161,19 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ isSidebarOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 250px; /* 사이드바의 폭 만큼 오른쪽에 위치 */
+  width: calc(100% - 250px); /* 사이드바를 제외한 나머지 영역을 덮도록 설정 */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1500;
+  visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'visible' : 'hidden')};
+
   @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
   }
 `;
 
