@@ -7,7 +7,7 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import { Message } from "./data/Message";
 import { ChatMenu } from "./components/chat/debug/ChatMenu";
 import { DebugDrawer } from "./components/chat/debug/DebugDrawer";
-import { GuidePage } from './components/chat/GuidePage'; // GuidePage import
+import { GuidePage } from './components/chat/GuidePage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
@@ -140,7 +140,7 @@ export const App = () => {
 const AppContainer = styled.div<{ isSidebarOpen: boolean }>`
   display: flex;
   height: 100vh;
-  overflow: hidden; // Prevent horizontal scroll
+  overflow: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -169,7 +169,8 @@ const Overlay = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 500;
+    z-index: 500; // 사이드바가 열리면 다른 요소를 가리도록
+    visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')}; // 사이드바가 열렸을 때만 보이도록 설정
   }
 `;
 
@@ -178,22 +179,17 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
-  transition: margin-left 0.3s ease-in-out; // 애니메이션 효과 추가
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')}; // 사이드바가 열리면 250px, 닫히면 0
+  transition: margin-left 0.3s ease-in-out;
   height: 100%;
-  position: relative; // Ensure children are positioned relative to this container
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0;
-  }
+  position: relative;
 `;
 
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px; // ChatInputContainer가 차지하는 공간 확보
-  height: 100%; // 전체 높이 설정
+  padding-bottom: 70px;
+  height: 100%;
   box-sizing: border-box;
 `;
 
@@ -201,7 +197,7 @@ const GuidePageContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   box-sizing: border-box;
-  padding-bottom: 70px; // ChatInputContainer가 차지하는 공간 확보
+  padding-bottom: 70px;
 `;
 
 const ChatInputContainer = styled.div`
@@ -212,7 +208,7 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000; // Ensure ChatInput is above other content
+  z-index: 1000; // Overlay보다 낮아야 합니다.
 `;
 
 const StyledMenuButton = styled.button`
@@ -224,8 +220,6 @@ const StyledMenuButton = styled.button`
   font-size: 1.5em;
   cursor: pointer;
   z-index: 1100;
-  color: #f4f4f4; // Change icon color to light gray
-  font-size: 1.7em; // Match the size of new chat icon
+  color: #f4f4f4;
+  font-size: 1.7em;
 `;
-
-``
