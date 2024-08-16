@@ -171,27 +171,30 @@ const Overlay = styled.div`
   }
 `;
 
-const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
-  transition: all 0.3s ease-in-out;
-  position: relative;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-left: 0;
-  }
-`;
-
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 70px); /* 전체 화면에서 ChatInput의 높이를 뺀 값 */
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ChatBox = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column-reverse; /* 메시지들이 아래에서 위로 쌓이도록 */
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const GuidePageContainer = styled.div`
