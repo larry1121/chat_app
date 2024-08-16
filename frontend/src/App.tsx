@@ -111,7 +111,7 @@ export const App = () => {
       <SidebarContainer isOpen={sidebarOpen}>
         <Sidebar onChatSelected={onChatSelected} selectedChatId={currentChatId} isOpen={sidebarOpen} onClose={closeSidebar} />
       </SidebarContainer>
-      {sidebarOpen && window.innerWidth <= 768 && <Overlay onClick={closeSidebar} />}
+      {sidebarOpen && window.innerWidth <= 768 && <Overlay isSidebarOpen={sidebarOpen} onClick={closeSidebar} />}
       <ChatContainer isSidebarOpen={sidebarOpen} debugMode={debugMode}>
         <StyledMenuButton onClick={toggleSidebar} title={sidebarOpen ? "사이드바 닫기" : "사이드바 열기"}>
           <FontAwesomeIcon icon={faBars} />
@@ -161,7 +161,7 @@ const SidebarContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ isSidebarOpen: boolean }>`
   @media (max-width: 768px) {
     position: fixed;
     top: 0;
@@ -169,8 +169,8 @@ const Overlay = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 500; // 사이드바가 열리면 다른 요소를 가리도록
-    visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')}; // 사이드바가 열렸을 때만 보이도록 설정
+    z-index: 500;
+    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'visible' : 'hidden')}; // 사이드바가 열렸을 때만 보이도록 설정
   }
 `;
 
@@ -208,7 +208,7 @@ const ChatInputContainer = styled.div`
   padding: 10px;
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
-  z-index: 1000; // Overlay보다 낮아야 합니다.
+  z-index: 1000; // Ensure ChatInput is above other content
 `;
 
 const StyledMenuButton = styled.button`
