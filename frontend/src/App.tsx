@@ -76,6 +76,33 @@ export const App = () => {
       });
   };
 
+  // onExampleQuestionClick 함수 추가
+  const onExampleQuestionClick = (message: string) => {
+    if (message.trim() === '') return;
+
+    if (currentChatId) {
+      onNewUserMessage(currentChatId, { sender: 'USER', content: message });
+    } else {
+      createChat(message);
+    }
+  };
+
+  const createChat = (message: string) => {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/chats/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'New Chat' })
+    })
+      .then((response) => response.json())
+      .then((newChat) => {
+        onNewChatCreated(newChat.id);
+
+        setTimeout(() => {
+          onNewUserMessage(newChat.id, { sender: 'USER', content: message });
+        }, 500);
+      });
+  };
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
