@@ -180,7 +180,7 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   flex-direction: column;
   flex: 1;
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
-  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '0' : '-250px')};
   transition: margin-left 0.3s ease-in-out;
   height: 100%; /* Ensures ChatContainer takes full height */
   position: relative;
@@ -209,14 +209,17 @@ const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: white;
-  padding: 10px;
-  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
-  height: 70px;
+  background-color: blue;
+  
+  // padding: 10px;
+  // box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+  // height: 70px;
   z-index: 1000;
+  
 
   @media (max-width: 768px) {
     visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};}
+    margin-left : 50px;
 `;
 
 const StyledMenuButton = styled.button`

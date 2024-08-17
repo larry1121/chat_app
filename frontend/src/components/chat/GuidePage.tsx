@@ -49,6 +49,7 @@ const QuestionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 10px
 `;
 
 const QuestionButton = styled.button`
