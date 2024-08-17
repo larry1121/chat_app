@@ -191,6 +191,7 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   }
 `;
 
+
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
@@ -208,19 +209,20 @@ const GuidePageContainer = styled.div`
 const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
-  width: 100%;
+  
+  margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '100px' : '200px')};
+  width: calc(100% - ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')});
   background-color: blue;
-  
-  // padding: 10px;
-  // box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
-  // height: 70px;
   z-index: 1000;
-  
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 
   @media (max-width: 768px) {
-    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};}
+    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
     margin-left : 50px;
+    width: 100%; /* 모바일 화면에서는 항상 100% 너비 유지 */
+  }
 `;
+
 
 const StyledMenuButton = styled.button`
   position: fixed;
