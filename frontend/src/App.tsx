@@ -199,6 +199,7 @@ const ChatBoxContainer = styled.div`
   overflow-y: auto;
   height: 100%; /* Ensures ChatBoxContainer takes full height */
   box-sizing: border-box;
+  padding-bottom: 70px;
 `;
 
 const GuidePageContainer = styled.div`
