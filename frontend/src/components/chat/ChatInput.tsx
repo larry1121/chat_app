@@ -75,6 +75,12 @@ const Form = styled.form`
   align-items: flex-start;
   padding: 10px;
   border-top: 1px solid #eee;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 `;
 
 const StyledTextareaAutosize = styled(TextareaAutosize)`
