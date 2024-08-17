@@ -214,6 +214,9 @@ const ChatInputContainer = styled.div`
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
   z-index: 1000;
+@media (max-width: 768px) {
+    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
+  }
 `;
 
 const StyledMenuButton = styled.button`
