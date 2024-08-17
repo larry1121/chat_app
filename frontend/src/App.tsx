@@ -182,7 +182,7 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
   transition: margin-left 0.3s ease-in-out;
-  height: calc(100vh - 70px); /* Full height minus ChatInput */
+  height: 100%; /* Ensures ChatContainer takes full height */
   position: relative;
 
   @media (max-width: 768px) {
@@ -194,6 +194,7 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
+  height: 100%; /* Ensures ChatBoxContainer takes full height */
   box-sizing: border-box;
 `;
 
@@ -215,8 +216,7 @@ const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   z-index: 1000;
 
   @media (max-width: 768px) {
-    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
-  }
+    visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};}
 `;
 
 const StyledMenuButton = styled.button`
