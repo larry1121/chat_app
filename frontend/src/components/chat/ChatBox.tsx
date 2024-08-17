@@ -30,8 +30,7 @@ const StyledChatBox = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden; /* Scroll responsibility moved to MessageList */
-  max-height: 100%;
+  overflow-y: auto; /* Make this the primary scrollable area */
   padding: 20px;
   
   @media (max-width: 768px) {
@@ -46,7 +45,6 @@ const StyledChatBox = styled.div`
 const MessageList = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Set the scrollable area to MessageList */
   flex-grow: 1;
-  max-height: 100%; /* Ensure it doesn't exceed the parent container's height */
+  justify-content: flex-end; /* Ensure messages start from the bottom */
 `;
