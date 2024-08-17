@@ -1,4 +1,8 @@
-# LLM-Powered Chat Application
+# KUpleTalk - LLM-Powered Chatbot for Korea University
+
+This repository contains the source code for KUpleTalk, a chat application designed to provide information on spatial data and facility usage within Korea University. KUpleTalk leverages a combination of advanced LLM (Large Language Model) technology, RAG (Retrieval-Augmented Generation), and fine-tuning techniques using OpenAI's services to enhance its performance. The chatbot is built on the database from KUplace, a Korea University community with over 1,000 downloads, to answer questions related to Korea University's spatial information.
+
+## LLM-Powered Chat Application
 This repository contains all of the starter code needed to run an LLM-powered chat app on your local machine:
 1. Django backend
 2. React TypeScript frontend
