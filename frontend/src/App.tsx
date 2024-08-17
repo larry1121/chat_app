@@ -184,10 +184,12 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   transition: margin-left 0.3s ease-in-out;
   height: 100%; /* Ensures ChatContainer takes full height */
   position: relative;
+  padding-bottom: 70px; /* ChatInput의 높이만큼 여유 공간 추가 */
 
   @media (max-width: 768px) {
     margin-left: 0;
     width: 100%;
+    padding-bottom: 70px; /* ChatInput의 높이만큼 여유 공간 추가 */
   }
 `;
 
