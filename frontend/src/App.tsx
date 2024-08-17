@@ -76,28 +76,6 @@ export const App = () => {
       });
   };
 
-  const onExampleQuestionClick = (message: string) => {
-    if (message.trim() === '') return;
-
-    const createChat = () => {
-      fetch(`${process.env.REACT_APP_API_BASE_URL}/chats/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'New Chat' }) // Adjust this as necessary.
-      })
-        .then((response) => response.json())
-        .then((newChat) => {
-          onNewChatCreated(newChat.id);
-
-          setTimeout(function () {
-            onNewUserMessage(newChat.id, { sender: 'USER', content: message });
-          }, 500);
-        });
-    };
-
-    createChat();
-  };
-
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
@@ -178,7 +156,7 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
   width: ${({ debugMode }) => (debugMode ? '70%' : '100%')};
   margin-left: ${({ isSidebarOpen }) => (isSidebarOpen ? '250px' : '0')};
   transition: margin-left 0.3s ease-in-out;
-  height: 100%;
+  height: calc(100vh - 70px); /* Full height minus ChatInput */
   position: relative;
 
   @media (max-width: 768px) {
@@ -190,8 +168,6 @@ const ChatContainer = styled.div<{ debugMode: boolean; isSidebarOpen: boolean }>
 const ChatBoxContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-bottom: 70px;
-  height: calc(100vh - 70px);
   box-sizing: border-box;
 `;
 
