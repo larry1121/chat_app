@@ -32,6 +32,7 @@ const StyledChatBox = styled.div`
   flex-direction: column;
   overflow-y: auto; /* Make this the primary scrollable area */
   padding: 20px;
+  box-sizing: border-box;
   
   @media (max-width: 768px) {
     padding: 15px;
