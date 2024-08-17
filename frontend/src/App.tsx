@@ -76,7 +76,6 @@ export const App = () => {
       });
   };
 
-  // onExampleQuestionClick 함수 추가
   const onExampleQuestionClick = (message: string) => {
     if (message.trim() === '') return;
 
@@ -131,7 +130,7 @@ export const App = () => {
             <GuidePage onExampleQuestionClick={onExampleQuestionClick} />
           </GuidePageContainer>
         )}
-        <ChatInputContainer>
+        <ChatInputContainer isSidebarOpen={sidebarOpen}>
           <ChatInput onNewUserMessage={onNewUserMessage} onNewChatCreated={onNewChatCreated} chatId={currentChatId} />
         </ChatInputContainer>
       </ChatContainer>
@@ -205,7 +204,7 @@ const GuidePageContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const ChatInputContainer = styled.div`
+const ChatInputContainer = styled.div<{ isSidebarOpen: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -214,7 +213,8 @@ const ChatInputContainer = styled.div`
   box-shadow: 0px -1px 5px rgba(0, 0, 0, 0.2);
   height: 70px;
   z-index: 1000;
-@media (max-width: 768px) {
+
+  @media (max-width: 768px) {
     visibility: ${({ isSidebarOpen }) => (isSidebarOpen ? 'hidden' : 'visible')};
   }
 `;
